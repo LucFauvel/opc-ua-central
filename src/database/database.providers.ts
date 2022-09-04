@@ -1,9 +1,9 @@
 import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize-typescript';
-import { Machine } from 'src/models/machine/machine.entity';
-import { OpcUaController } from 'src/models/opc-ua-controller/opc-ua-controller.entity';
-import { Reading } from 'src/models/reading/reading.entity';
-import { Sensor } from 'src/models/sensor/sensor.entity';
+import { Machine } from '../models/machine/machine.entity';
+import { OpcUaDevice } from '../models/opc-ua-device/opc-ua-device.entity';
+import { Reading } from '../models/reading/reading.entity';
+import { Sensor } from '../models/sensor/sensor.entity';
 
 export const databaseProviders = [
     {
@@ -12,12 +12,12 @@ export const databaseProviders = [
         const sequelize = new Sequelize({
           dialect: 'mssql',
           host: configService.get<string>('DATABASE_ADDRESS'),
-          port: 3306,
+          port: 1433,
           username: configService.get<string>('DATABASE_USER'),
           password: configService.get<string>('DATABASE_PASSWORD'),
           database: 'OpcUaCentral',
         });
-        sequelize.addModels([Machine, OpcUaController, Reading, Sensor]);
+        sequelize.addModels([Machine, OpcUaDevice, Reading, Sensor]);
         await sequelize.sync();
         return sequelize;
       },

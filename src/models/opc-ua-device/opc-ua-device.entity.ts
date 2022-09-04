@@ -1,9 +1,10 @@
-import { Column, Table, Model, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
+import { Column, Table, Model, ForeignKey, BelongsTo, HasMany, PrimaryKey } from "sequelize-typescript";
 import { Machine } from "../machine/machine.entity";
 import { Sensor } from "../sensor/sensor.entity";
 
 @Table
-export class OpcUaController extends Model {
+export class OpcUaDevice extends Model {
+    @PrimaryKey
     @Column
     declare id: string;
 

@@ -1,9 +1,10 @@
-import { Column, Table, Model, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
-import { OpcUaController } from "../opc-ua-controller/opc-ua-controller.entity";
+import { Column, Table, Model, ForeignKey, BelongsTo, HasMany, PrimaryKey } from "sequelize-typescript";
+import { OpcUaDevice } from "../opc-ua-device/opc-ua-device.entity";
 import { Reading } from "../reading/reading.entity";
 
 @Table
 export class Sensor extends Model {
+    @PrimaryKey
     @Column
     declare id: string;
 
@@ -16,12 +17,12 @@ export class Sensor extends Model {
     @Column
     declare nodeId: string;
 
-    @ForeignKey(() => OpcUaController)
+    @ForeignKey(() => OpcUaDevice)
     @Column
-    declare controllerId: string;
+    declare deviceId: string;
 
-    @BelongsTo(() => OpcUaController)
-    declare opcUaController: OpcUaController
+    @BelongsTo(() => OpcUaDevice)
+    declare opcUaDevice: OpcUaDevice
 
     @HasMany(() => Reading)
     declare readings: Reading[]
