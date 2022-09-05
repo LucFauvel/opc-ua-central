@@ -10,5 +10,6 @@ import { ReadingsService } from "./reading.service";
       ReadingsService,
       ...readingsProviders,
     ],
+    exports: [ReadingsService]
   })
   export class ReadingsModule {}

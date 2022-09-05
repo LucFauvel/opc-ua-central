@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Column, Table, Model, HasMany, PrimaryKey } from "sequelize-typescript";
 import { OpcUaDevice } from "../opc-ua-device/opc-ua-device.entity";
 
@@ -6,12 +5,13 @@ import { OpcUaDevice } from "../opc-ua-device/opc-ua-device.entity";
 export class Machine extends Model<Machine> {
     @PrimaryKey
     @Column
-    @ApiProperty()
     declare id: string;
 
     @Column
-    @ApiProperty()
     declare name: string;
+
+    @Column
+    declare serial: string;
 
     @Column
     declare apiKey: string;

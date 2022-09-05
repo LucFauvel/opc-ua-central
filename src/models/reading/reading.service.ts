@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
+import { randomUUID } from "crypto";
 import { Reading } from "./reading.entity";
 
 @Injectable()
@@ -10,5 +11,14 @@ export class ReadingsService {
 
   async findAll(): Promise<Reading[]> {
     return this.readingsRepository.findAll<Reading>();
+  }
+
+  async insert(reading: Reading): Promise<void> {
+    await this.readingsRepository.create({
+      id: randomUUID(),
+      value: reading.value,
+      readAt: reading.readAt,
+      sensorId: reading.sensorId
+    });
   }
 }

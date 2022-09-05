@@ -1,4 +1,4 @@
-import { Column, Table, Model, ForeignKey, BelongsTo, HasMany, PrimaryKey } from "sequelize-typescript";
+import { Column, Table, Model, ForeignKey, BelongsTo, HasMany, PrimaryKey, DataType } from "sequelize-typescript";
 import { OpcUaDevice } from "../opc-ua-device/opc-ua-device.entity";
 import { Reading } from "../reading/reading.entity";
 
@@ -11,8 +11,8 @@ export class Sensor extends Model {
     @Column
     declare name: string;
 
-    @Column
-    declare type: SensorType;
+    @Column(DataType.ENUM('TEMPERATURE', 'ANALOG'))
+    declare type: 'TEMPERATURE' | 'ANALOG';
 
     @Column
     declare nodeId: string;
@@ -26,9 +26,4 @@ export class Sensor extends Model {
 
     @HasMany(() => Reading)
     declare readings: Reading[]
-}
-
-export enum SensorType {
-    TEMPERATURE = "TEMPERATURE",
-    ANALOG = "ANALOG"
 }

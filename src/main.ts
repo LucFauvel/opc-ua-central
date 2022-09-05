@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { OpcWsAdapter } from './gateway/opc-ws.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  app.useWebSocketAdapter(new OpcWsAdapter(app));
 
   const config = new DocumentBuilder()
     .setTitle('OPC-UA Central')

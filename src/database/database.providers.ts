@@ -17,7 +17,7 @@ export const databaseProviders = [
           password: configService.get<string>('DATABASE_PASSWORD'),
           database: 'OpcUaCentral',
         });
-        sequelize.addModels([Machine, OpcUaDevice, Reading, Sensor]);
+        sequelize.addModels([Machine, OpcUaDevice, Sensor, Reading]);
         await sequelize.sync();
         return sequelize;
       },

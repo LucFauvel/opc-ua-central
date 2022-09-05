@@ -10,5 +10,6 @@ import { SensorsService } from "./sensor.service";
       SensorsService,
       ...sensorsProviders,
     ],
+    exports: [SensorsService]
   })
   export class SensorsModule {}

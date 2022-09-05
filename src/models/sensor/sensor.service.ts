@@ -11,4 +11,16 @@ export class SensorsService {
   async findAll(): Promise<Sensor[]> {
     return this.sensorsRepository.findAll<Sensor>();
   }
+
+  async insertMany(sensors: Sensor[]): Promise<void> {
+    await this.sensorsRepository.bulkCreate<Sensor>(sensors.map((sensor) => {
+      return {
+        id: sensor.id,
+        name: sensor.name,
+        type: sensor.type,
+        nodeId: sensor.nodeId,
+        deviceId: sensor.deviceId
+      }
+    }));
+  }
 }
