@@ -12,7 +12,7 @@ export class RawReading {
     readAt: Date;
 }
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class OpcGateway implements OnGatewayConnection {
     @WebSocketServer()
     server: Server;
@@ -22,11 +22,15 @@ export class OpcGateway implements OnGatewayConnection {
     async handleConnection(client: Socket, ...args: any[]) {
         try {
             const apiKey = parse(parseUrl(client.request.url)?.query)?.apiKey as string;
-            const machine = await this.machinesService.getMachineFromApiKey(apiKey);
-            client.data.machineId = machine?.id;
-            client.emit('load-configs', JSON.stringify(machine.devices))
+            if (apiKey) {
+                const machine = await this.machinesService.getMachineFromApiKey(apiKey);
+                client.data.machineId = machine?.id;
+                client.emit('load-configs', JSON.stringify(machine.devices))
+            } else {
+                client.join('read-values')
+            }
         } catch {
-            console.warn('Disconnecting socket due to missing or invalid api key');
+            console.warn('Disconnecting socket due to invalid api key');
             client.disconnect(true)
         }
     }
@@ -47,7 +51,8 @@ export class OpcGateway implements OnGatewayConnection {
         reading.value = data.value;
         reading.sensorId = data.sensorId;
         reading.readAt = data.readAt;
-        await this.readingsService.insert(reading);
+        const createdReading = await this.readingsService.insert(reading);
+        this.server.to('read-values').emit('value-saved', createdReading)
     }
 
 }

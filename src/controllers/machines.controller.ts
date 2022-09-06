@@ -24,7 +24,22 @@ export class MachinesController {
         name: machine.name,
         serial: machine.serial,
         apiKey: machine.apiKey,
-        status: machineStatus
+        status: machineStatus,
+        devices: machine.devices.map((device) => {
+          return {
+            id: device.id,
+            name: device.name,
+            address: device.address,
+            sensors: device.sensors.map((sensor) => {
+              return {
+                id: sensor.id,
+                name: sensor.name,
+                type: sensor.type,
+                nodeId: sensor.nodeId
+              }
+            })
+          }
+        })
       })
     }
 
@@ -41,7 +56,22 @@ export class MachinesController {
         name: createdMachine.name,
         serial: createdMachine.serial,
         apiKey: createdMachine.apiKey,
-        status: 'disconnected'
+        status: 'disconnected',
+        devices: createdMachine.devices.map((device) => {
+          return {
+            id: device.id,
+            name: device.name,
+            address: device.address,
+            sensors: device.sensors.map((sensor) => {
+              return {
+                id: sensor.id,
+                name: sensor.name,
+                type: sensor.type,
+                nodeId: sensor.nodeId
+              }
+            })
+          }
+        })
       }
     });
   }

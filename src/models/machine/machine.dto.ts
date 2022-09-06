@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { OpcUaDevice } from "../opc-ua-device/opc-ua-device.dto";
 
 export class Machine {
     @ApiProperty()
@@ -15,4 +16,7 @@ export class Machine {
 
     @ApiProperty()
     declare status: string;
+
+    @ApiProperty({ type: [OpcUaDevice] })
+    declare devices: OpcUaDevice[];
 }
